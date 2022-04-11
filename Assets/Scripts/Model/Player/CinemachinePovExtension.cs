@@ -1,0 +1,44 @@
+﻿using UnityEngine;
+using Cinemachine;
+using Control;
+
+namespace Model.Player
+{
+    public class CinemachinePovExtension : CinemachineExtension
+    {
+        [SerializeField] private float sensitivity;
+        [SerializeField] private float clampAngle;
+        [SerializeField] private Transform playerBody;
+        
+        private Vector3 _startingRotation;
+        private InputManager _inputManager;
+
+        protected override void Awake()
+        {
+            _inputManager = InputManager.Instance;
+            Application.targetFrameRate = 200;
+            base.Awake();
+        }
+        
+        protected override void PostPipelineStageCallback(CinemachineVirtualCameraBase vcam,
+            CinemachineCore.Stage stage, ref CameraState state, float deltaTime)
+        {
+            if (vcam.Follow)
+            {
+                if (stage == CinemachineCore.Stage.Aim)
+                {
+                    if (_startingRotation == null)
+                        _startingRotation = transform.localRotation.eulerAngles;
+                    var deltaInput = _inputManager.GetMouseDelta();
+                    
+                    _startingRotation.x += deltaInput.x * sensitivity * Time.deltaTime;
+                    _startingRotation.y += deltaInput.y * sensitivity * Time.deltaTime;
+                    _startingRotation.y = Mathf.Clamp(_startingRotation.y, -clampAngle, clampAngle);
+                    
+                    state.RawOrientation = Quaternion.Euler(-_startingRotation.y, _startingRotation.x, 0f);
+                    playerBody.Rotate(Vector3.up * deltaInput.x * sensitivity * Time.deltaTime);
+                }
+            }
+        }
+    }
+}
