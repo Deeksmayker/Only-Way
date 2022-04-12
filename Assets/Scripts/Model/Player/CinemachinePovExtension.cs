@@ -11,11 +11,11 @@ namespace Model.Player
         [SerializeField] private Transform playerBody;
         
         private Vector3 _startingRotation;
-        private InputManager _inputManager;
+        private GameInputManager _gameInputManager;
 
         protected override void Awake()
         {
-            _inputManager = InputManager.Instance;
+            _gameInputManager = GameInputManager.Instance;
             Application.targetFrameRate = 200;
             base.Awake();
         }
@@ -29,7 +29,7 @@ namespace Model.Player
                 {
                     if (_startingRotation == null)
                         _startingRotation = transform.localRotation.eulerAngles;
-                    var deltaInput = _inputManager.GetMouseDelta();
+                    var deltaInput = _gameInputManager.GetMouseDelta();
                     
                     _startingRotation.x += deltaInput.x * sensitivity * Time.deltaTime;
                     _startingRotation.y += deltaInput.y * sensitivity * Time.deltaTime;

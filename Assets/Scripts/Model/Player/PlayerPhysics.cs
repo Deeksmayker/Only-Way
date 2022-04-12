@@ -11,7 +11,7 @@ namespace Model.Player
         [SerializeField] private float gravityMultiplayer;
         protected float Gravity = -9.81f;
         protected CharacterController CharacterController;
-        protected Vector3 Velocity;
+        protected Vector3 VerticalVelocity;
 
         [SerializeField] private Transform groundChecker;
         [SerializeField] private float groundDistance;
@@ -31,18 +31,18 @@ namespace Model.Player
         private void MakeGravity()
         {
             CheckGround();
-            Velocity += transform.up * Gravity * Time.deltaTime;
+            VerticalVelocity += transform.up * Gravity * Time.deltaTime;
 
-            CharacterController.Move(Velocity * Time.deltaTime);
+            CharacterController.Move(VerticalVelocity * Time.deltaTime);
         }
 
         private void CheckGround()
         {
             PlayerPreferences.Grounded = Physics.OverlapSphereNonAlloc(groundChecker.position, groundDistance, _colliders) > 0;
 
-            if (PlayerPreferences.Grounded && Velocity.y < 0)
+            if (PlayerPreferences.Grounded && VerticalVelocity.y < 0)
             {
-                Velocity.y = -2f;
+                VerticalVelocity.y = -2f;
             }
         }
     }
