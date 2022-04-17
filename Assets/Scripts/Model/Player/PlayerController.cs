@@ -6,18 +6,16 @@ using UnityEngine;
 
 public class PlayerController : PlayerPhysics
 {
-    [SerializeField] private float speed;
-    [SerializeField] private float jumpHeight;
+    public float speed;
+    public float jumpHeight;
     
     [SerializeField] private Transform cameraTransform;
-    private float previousCameraYRotation;
-    private Transform _body;
+
     private GameInputManager _gameInputManager;
 
     private void Awake()
     {
         _gameInputManager = GameInputManager.Instance;
-        _body = transform;
         GameInputManager.OnJumpButtonDown.AddListener(Jump);
     }
     
@@ -30,7 +28,8 @@ public class PlayerController : PlayerPhysics
 
     private void Move()
     {
-        var movement = _gameInputManager.GetPlayerMovement();
+
+        var movement = _gameInputManager.GetPlayerMovementRaw();
         var move = cameraTransform.right * movement.x + cameraTransform.forward * movement.y;
         move.y = 0;
         CharacterController.Move(move * speed * Time.deltaTime);
