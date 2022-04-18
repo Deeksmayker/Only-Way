@@ -1,59 +1,75 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.InputSystem;
 
 namespace Control
 {
     public class GameInputManager : MonoBehaviour
     {
-        public static GameInputManager Instance { get; private set; }
+	    [Header("Character Input Values")]
+        public Vector2 move;
+        public Vector2 look;
+        public bool jump;
+        public bool sprint;
+
+        [Header("Movement Settings")]
+        public bool analogMovement;
+
+
+        [Header("Mouse Cursor Settings")]
+        public bool cursorLocked = true;
+        public bool cursorInputForLook = true;
         
-        private PlayerControls.PlayerActions _playerControls;
+        public void OnMove(InputValue value)
+		{
+			MoveInput(value.Get<Vector2>());
+		}
 
-        public static UnityEvent OnJumpButtonDown = new UnityEvent();
-        public static UnityEvent OnJumpButtonUp = new UnityEvent();
+		public void OnLook(InputValue value)
+		{
+			if(cursorInputForLook)
+			{
+				LookInput(value.Get<Vector2>());
+			}
+		}
 
-        private void Awake()
+		public void OnJump(InputValue value)
+		{
+			JumpInput(value.isPressed);
+		}
+
+		public void OnSprint(InputValue value)
+		{
+			SprintInput(value.isPressed);
+		}
+
+		public void MoveInput(Vector2 newMoveDirection)
         {
-            if (Instance != null && Instance != this)
-                Destroy(this.gameObject);
-            else
-                Instance = this;
+            move = newMoveDirection;
+        } 
 
-            _playerControls = new PlayerControls().Player;
+        public void LookInput(Vector2 newLookDirection)
+        {
+            look = newLookDirection;
         }
 
-        private void OnEnable()
+        public void JumpInput(bool newJumpState)
         {
-            _playerControls.Enable();
+            jump = newJumpState;
         }
 
-        private void OnDisable()
+        public void SprintInput(bool newSprintState)
         {
-            _playerControls.Disable();
+            sprint = newSprintState;
         }
 
-        private void Update()
-        {
-            CheckJumpInputs();
-        }
-
-        public Vector2 GetPlayerMovement()
-        {
-            return _playerControls.Movement.ReadValue<Vector2>();
-        }
-
-        public Vector2 GetMouseDelta()
-        {
-            return _playerControls.Look.ReadValue<Vector2>();
-        }
-
-        public void CheckJumpInputs()
+        /*public void CheckJumpInputs()
         {
             if (_playerControls.Jump.WasPressedThisFrame())
                 OnJumpButtonDown.Invoke();
             if (_playerControls.Jump.WasReleasedThisFrame())
                 OnJumpButtonUp.Invoke();
-        }
+        }*/
     }
 }

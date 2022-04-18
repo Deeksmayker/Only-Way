@@ -27,6 +27,8 @@ namespace Model.Player
             {
                 if (stage == CinemachineCore.Stage.Aim)
                 {
+                    if (_startingRotation == null)
+                        _startingRotation = transform.localRotation.eulerAngles;
                     var deltaInput = _gameInputManager.GetMouseDelta();
                     
                     _startingRotation.x += deltaInput.x * sensitivity * Time.deltaTime;
