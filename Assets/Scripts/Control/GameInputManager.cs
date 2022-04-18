@@ -38,11 +38,6 @@ namespace Control
             CheckJumpInputs();
         }
 
-        public Vector2 GetPlayerMovementRaw()
-        {
-            return _playerControls.MovementRaw.ReadValue<Vector2>();
-        }
-
         public Vector2 GetPlayerMovement()
         {
             return _playerControls.Movement.ReadValue<Vector2>();
