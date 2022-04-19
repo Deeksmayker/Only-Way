@@ -12,12 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e9c258487a74909ba173d5b2ee4cb79, type: 3}
   m_Name: Bandit
   m_EditorClassIdentifier: 
-  name: 
+  name: Bandit
   model: {fileID: 0}
+  maxBlood: 100
   dangerous: 0
-  head: {fileID: 0}
-  chest: {fileID: 0}
-  leftArm: {fileID: 0}
-  rightArm: {fileID: 0}
-  leftLeg: {fileID: 0}
-  rightLeg: {fileID: 0}

@@ -4,7 +4,7 @@ namespace Model.Entities
 {
     public abstract class Entity : ScriptableObject
     {
-        public string name;
+        public string newName;
         public GameObject model;
     
         public float maxBlood = 100;

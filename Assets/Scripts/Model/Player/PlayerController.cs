@@ -175,20 +175,16 @@ public class PlayerController : MonoBehaviour
 			}
 			else
 			{
-				// reset the jump timeout timer
 				_jumpTimeoutDelta = JumpTimeout;
-
-				// fall timeout
+				
 				if (_fallTimeoutDelta >= 0.0f)
 				{
 					_fallTimeoutDelta -= Time.deltaTime;
 				}
-
-				// if we are not grounded, do not jump
+				
 				_input.jump = false;
 			}
-
-			// apply gravity over time if under terminal (multiply by delta time twice to linearly speed up over time)
+			
 			if (_verticalVelocity < _terminalVelocity)
 			{
 				_verticalVelocity += Gravity * Time.deltaTime;

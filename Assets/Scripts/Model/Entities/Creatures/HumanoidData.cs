@@ -3,8 +3,8 @@ using UnityEngine;
 
 namespace Model.Entities
 {
-    [CreateAssetMenu(fileName = "Entity", menuName = "ScriptableObjects/Entity")]
-    public class Humanoid : Entity
+    [CreateAssetMenu(fileName = "Humanoid", menuName = "ScriptableObjects/Entity")]
+    public class HumanoidData : Entity
     {
         [NonSerialized] public BodyPart Head;
         [NonSerialized] public BodyPart Chest;
