@@ -12,10 +12,8 @@ namespace Control
         public Vector2 look;
         public bool jump;
         public bool sprint;
-
-        [Header("Movement Settings")]
-        public bool analogMovement;
-
+        public bool rightAttack;
+        public bool leftAttack;
 
         [Header("Mouse Cursor Settings")]
         public bool cursorLocked = true;
@@ -44,6 +42,16 @@ namespace Control
 			SprintInput(value.isPressed);
 		}
 
+		public void OnRightAttack(InputValue value)
+		{
+			RightAttackInput(value.isPressed);
+		}
+
+		public void OnLeftAttack(InputValue value)
+		{
+			LeftAttackInput(value.isPressed);
+		}
+
 		public void MoveInput(Vector2 newMoveDirection)
         {
             move = newMoveDirection;
@@ -62,6 +70,16 @@ namespace Control
         public void SprintInput(bool newSprintState)
         {
             sprint = newSprintState;
+        }
+
+        public void RightAttackInput(bool newAttackState)
+        {
+	        rightAttack = newAttackState;
+        }
+
+        public void LeftAttackInput(bool newAttackState)
+        {
+	        leftAttack = newAttackState;
         }
 
         /*public void CheckJumpInputs()

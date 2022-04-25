@@ -67,6 +67,12 @@ public class PlayerController : MonoBehaviour
 
 		private void Awake()
 		{
+			QualitySettings.vSyncCount = 0;
+			
+			#if UNITY_EDITOR
+			Application.targetFrameRate = 144;
+			#endif
+			
 			if (_mainCamera == null)
 			{
 				_mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
@@ -108,8 +114,8 @@ public class PlayerController : MonoBehaviour
 		{
 			if (_input.look.sqrMagnitude >= _threshold)
 			{
-				_cinemachineTargetPitch += _input.look.y * RotationSpeed * Time.deltaTime;
-				_rotationVelocity = _input.look.x * RotationSpeed * Time.deltaTime;
+				_cinemachineTargetPitch += _input.look.y * RotationSpeed;
+				_rotationVelocity = _input.look.x * RotationSpeed;
 				
 				_cinemachineTargetPitch = ClampAngle(_cinemachineTargetPitch, BottomClamp, TopClamp);
 				
@@ -129,7 +135,7 @@ public class PlayerController : MonoBehaviour
 			float currentHorizontalSpeed = new Vector3(_controller.velocity.x, 0.0f, _controller.velocity.z).magnitude;
 
 			float speedOffset = 0.1f;
-			float inputMagnitude = _input.analogMovement ? _input.move.magnitude : 1f;
+			float inputMagnitude = 1f;
 			
 			if (currentHorizontalSpeed < targetSpeed - speedOffset || currentHorizontalSpeed > targetSpeed + speedOffset)
 			{
@@ -172,6 +178,8 @@ public class PlayerController : MonoBehaviour
 				{
 					_jumpTimeoutDelta -= Time.deltaTime;
 				}
+
+				_input.jump = false;
 			}
 			else
 			{
@@ -181,8 +189,6 @@ public class PlayerController : MonoBehaviour
 				{
 					_fallTimeoutDelta -= Time.deltaTime;
 				}
-				
-				_input.jump = false;
 			}
 			
 			if (_verticalVelocity < _terminalVelocity)
